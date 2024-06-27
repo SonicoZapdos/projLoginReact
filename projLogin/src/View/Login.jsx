@@ -11,26 +11,24 @@ function Login({ isLoggedInChange }) {
         setMessage('');
         
         try {
-          const response = await fetch('/api/login', {
+          const response = await fetch('http://localhost:5000/api/login', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            body: { "email": email, "password": password },
+            body: JSON.stringify({"email": email, "password": password}),
           });
           const data = await response.json();
           if (response.ok) {
-            if (data) {
-              setMessage('Login successful!');
-              console.log('opaaaa');
-              alert('teste');
-              // Faça algo com os dados do usuário, por exemplo, redirecionar para uma página
+            if (data.length == 1) {
+              setMessage('Verificado com Sucesso');
+              isLoggedInChange(true, data);
             } else {
-              setMessage('Invalid credentials. Please try again.');
-              alert('teste');
+              setMessage('Usuário ou Senha Incorretos, por favor tente novamente!!!');
+              console.log(data);
             }
           } else {
-            setMessage(`Error: ${data.error}`);
+            setMessage(`Error Data: ${data.error}`);
           }
         } catch (error) {
           setMessage(`Error: ${error.message}`);

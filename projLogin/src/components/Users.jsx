@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import "./Users.css";
 
-const Users = () => {
+function Users () {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
@@ -10,16 +11,33 @@ const Users = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Users</h2>
-      <ul>
-        {users.map((user) => (
-          <li key={user.id}>
-            {user.name} - {user.email}
-          </li>
-        ))}
-      </ul>
-    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Ultimo Nome</th>
+          <th>Email</th>
+          <th>Telefone</th>
+          <th>Status</th>
+          <th>Editar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          users.map((x) => {
+            return <tr>
+              <th>{x.name}</th>
+              <th>{x.lastName}</th>
+              <th>{x.email}</th>
+              <th>{x.phone}</th>
+              <th>{x.active}</th>
+              <th>Editar/Deletar</th>
+            </tr>
+          }
+          )
+        }
+      </tbody>
+    </table>
   );
 };
 

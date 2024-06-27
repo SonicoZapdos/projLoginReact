@@ -1,0 +1,32 @@
+.MainPage {
+    width: 80vw;
+    height: 80vh;
+    justify-content: start;
+    gap: 50px;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    justify-content: space-between;
+    padding-top: 10px;
+}
+
+.main {
+    width: 80%;
+}
+
+.perfil {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.picture {
+    width: 40px;
+    height: 40px;
+    border-radius: 20px;
+    background-color: lightgray;
+}

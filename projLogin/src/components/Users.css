@@ -1,0 +1,17 @@
+table {
+    width: 100%;
+    
+    tbody {
+        
+    }
+
+    tbody tr {
+        box-shadow: 0px 2px 0px 0px #3a3a3a;
+    }
+
+    tbody tr th, thead tr th {
+        text-align: center;
+        height: 45px;
+        padding-bottom: 10px;
+    }
+}

@@ -1,27 +1,30 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Login from "./View/Login";
 import MainPage from "./View/MainPage";
 import "./App.css";
 
 function App() {
-  const [isLoggedIn, setState] = useState({isLoggedIn: false});
+  const [isLoggedIn, setLogged] = useState(false);
+  const [user, setUser] = useState('');
+
   let page;
 
-  function isLoggedInChange(_isLoggedIn) {
-    setState(_isLoggedIn);
+  function isLoggedInChange(_isLoggedIn, _user) {
+    setUser(_user);
+    console.log(user);
+    setLogged(_isLoggedIn);
   }
 
   if (isLoggedIn) {
+    page = <MainPage person={user} />
+  } else {
     page = <Login isLoggedInChange={isLoggedInChange} />
-  }
-  else {
-    page = <MainPage />
   }
 
   return (
-      <div className="App">
-        {page}
-      </div>
+    <div className="App">
+      {page}
+    </div>
   );
 }
 
