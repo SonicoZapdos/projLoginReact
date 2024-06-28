@@ -1,5 +1,6 @@
 import React from "react";
 import Users from "../components/Users";
+import BtnCreate from "../components/ModalCreate";
 import "./MainPage.css";
 
 function MainPage({ person }) {
@@ -13,6 +14,7 @@ function MainPage({ person }) {
                     <h5>{person.map((x) => x.name)} {person.map((x) => x.lastName)}</h5>
                 </div>
             </div>
+            <BtnCreate />
             <div className="main">
                 <Users />
             </div>

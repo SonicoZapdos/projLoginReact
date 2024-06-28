@@ -9,20 +9,22 @@ const db = new sqlite3.Database(dbPath, (err) => {
     console.error('Erro ao abrir o banco de dados:', err.message);
   } else {
     console.log('Conectado ao banco de dados SQLite.');
-    createTable();
+    createTableConsumer();
+    createTableUser();
+
+    insertExempleUser();
   }
 });
 
 // Função para criar uma tabela
-const createTable = () => {
+const createTableConsumer = () => {
   const query = `
-    CREATE TABLE IF NOT EXISTS users (
+    CREATE TABLE IF NOT EXISTS consumer (
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       name TEXT NOT NULL,
       lastName TEXT NOT NULL,
       email TEXT  NOT NULL,
       phone TEXT,
-      password TEXT NOT NULL,
       active BOOL
     )
   `;
@@ -30,14 +32,46 @@ const createTable = () => {
     if (err) {
       console.error('Erro ao criar a tabela:', err.message);
     } else {
-      console.log('Tabela "users" criada ou já existe.');
+      console.log('Tabela "consumer" criada ou já existe.');
     }
   });
 };
 
-const insertExemple = () => {
+const createTableUser = () => {
   const query = `
-    INSERT INTO users (id,name, lastName, email, phone, password, active) VALUES ( 1,'John','Joestar','john@gmail.com','27992881332','1234', false)
+    CREATE TABLE IF NOT EXISTS user (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      name TEXT NOT NULL,
+      lastName TEXT NOT NULL,
+      email TEXT  NOT NULL,
+      password TEXT NOT NULL
+    )
+  `;
+  db.run(query, (err) => {
+    if (err) {
+      console.error('Erro ao criar a tabela:', err.message);
+    } else {
+      console.log('Tabela "user" criada ou já existe.');
+    }
+  });
+};
+
+const insertExempleConsumer = () => {
+  const query = `
+    INSERT INTO consumer (id,name, lastName, email, phone, active) VALUES ( 1,'John','Joestar','john@gmail.com','27992881332',false)
+  `;
+  db.run(query, (err) => {
+    if (err) {
+      console.error('Erro ao criar usuario:', err.message);
+    } else {
+      console.log('usuario criado ou já existe.');
+    }
+  });
+};
+
+const insertExempleUser = () => {
+  const query = `
+    INSERT INTO user (id,name, lastName, email, password) VALUES ( 1,'John','Joestar','john@gmail.com','1234')
   `;
   db.run(query, (err) => {
     if (err) {
