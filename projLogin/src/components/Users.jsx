@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import BtnEdit from './ModalEdit';
+import BtnDelete from './ModalDelete';
 import "./Users.css";
 
 function Users() {
@@ -31,7 +32,8 @@ function Users() {
   }, []);
 
   return (
-    <table>
+    <div className="container-table">
+      <table>
       <thead>
         <tr>
           <th>Nome</th>
@@ -51,13 +53,14 @@ function Users() {
               <th>{x.email}</th>
               <th>{x.phone}</th>
               <th>{x.active}</th>
-              <th><BtnEdit id={x.id} />/Deletar</th>
+              <th><BtnEdit id={x.id} /> / <BtnDelete id={x.id} /></th>
             </tr>
           }
           )
         }
       </tbody>
     </table>
+    </div>
   );
 };
 

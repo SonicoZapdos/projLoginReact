@@ -27,7 +27,7 @@ const getConsumers = (callback) => {
 };
 
 const getConsumer = (id, callback) => {
-    const query = `SELECT * FROM consumer WHERE = ?`;
+    const query = `SELECT * FROM consumer WHERE id = ?`;
     db.all(query, [id], (err, rows) => {
       if (err) {
         callback(err);
@@ -41,10 +41,10 @@ const updateConsumer = (id, name, lastName, email, phone, active, callback) => {
   const query = `UPDATE consumer SET name = ?, lastName = ?, email = ?, phone = ?, active = ? WHERE id = ?`;
   db.run(query, [name, lastName, email, phone, active, id], function (err) {
     if (err) {
-      callback(err);
-      return;
+      console.log("Erro ao atualizar consumidor:", err.message);
+      return callback(err);
     }
-    callback(null);
+    callback(null, {name, lastName, email, phone, active});
   });
 };
 
@@ -55,7 +55,7 @@ const deleteConsumer = (id, callback) => {
       callback(err);
       return;
     }
-    callback(null);
+    callback(null, {id});
   });
 };
 

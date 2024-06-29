@@ -53,15 +53,21 @@ app.post("/api/consumeradd", (req, res) => {
 });
 
 // Rota para atualizar um usuário existente
-app.put("/api/consumerupd/:id", (req, res) => {
+app.put("/api/consumer/:id", (req, res) => {
   const { id } = req.params;
-  const { name, email } = req.body;
-  consumer.updateConsumer(id, name, email, (err, user) => {
+  const { name, lastName, email, phone, active } = req.body;
+
+  // Validação dos campos obrigatórios
+  if (!name || !lastName || !email || !phone) {
+    return res.status(400).json({ error: "Nome, Sobrenome, Email ou Telefone não foram preenchidos!!!" });
+  }
+
+  consumer.updateConsumer(id, name, lastName, email, phone, active, (err, user) => {
     if (err) {
-      res.status(500).json({ error: err.message });
-      return;
+      console.log("Erro ao atualizar consumidor:", err.message);
+      return res.status(500).json({ error: err.message });
     }
-    res.json(user);
+    return res.status(201).json(user);
   });
 });
 
@@ -70,10 +76,11 @@ app.delete("/api/consumer/:id", (req, res) => {
   const { id } = req.params;
   consumer.deleteConsumer(id, (err) => {
     if (err) {
+      console.log("Erro ao atualizar consumidor:", err.message);
       res.status(500).json({ error: err.message });
       return;
     }
-    res.status(204).send();
+    res.status(200).send();
   });
 });
 

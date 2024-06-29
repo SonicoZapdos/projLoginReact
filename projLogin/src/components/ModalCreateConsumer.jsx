@@ -1,53 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./Modal.css";
 
-const ButtonEdit = ({ id }) => {
-    const [modalEdit, setModal] = useState(false);
-
-    const ModalOff = () => {
-        setModal(false);
+const ModalCreate = ({ modalCreate, ModalCreateOff }) => {
+    if (!modalCreate) {
+        return null;
     }
-    const ModalOn = () => {
-        setModal(true);
-    }
-
-    return (
-        <>
-      <button className="outline-button btn-blue" onClick={ModalOn}>Editar</button>
-      {modalEdit && <ModalEdit ModalOff={ModalOff} id={id} />}
-    </>
-    );
-}
-
-const ModalEdit = ({ ModalOff , id}) => {
     const [name, setName] = useState('');
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [phone, setPhone] = useState('');
     const [status, setStatus] = useState('Ativo');
     const [message, setMessage] = useState('');
-
-    useEffect(() => {
-        const SetEdit = async () => {
-            try {
-                const response = await fetch('http://localhost:5000/api/consumer/' + id);
-                const data = await response.json();
-                data.map((x) => {
-                    setName(x.name);
-                    setLastName(x.lastName);
-                    setEmail(x.email);
-                    setPhone(x.phone);
-                    setStatus(x.status);
-                });
-            } catch (error) {
-                setMessage(`Error: ${error.message}`);
-            }
-        }
-
-        SetEdit();
-    }, [id]);
-
-    
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -56,8 +19,8 @@ const ModalEdit = ({ ModalOff , id}) => {
         if (status === 'Ativo') { active = true; }
         else { active = false; }
         try {
-            const response = await fetch('http://localhost:5000/api/consumer/' + id, {
-                method: 'PUT',
+            const response = await fetch('http://localhost:5000/api/consumeradd', {
+                method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -66,22 +29,20 @@ const ModalEdit = ({ ModalOff , id}) => {
             const data = await response.json();
 
             if (response.ok) {
-                setMessage('User Updated successfully!');
-                ModalOff();
+                setMessage('User created successfully!');
+                ModalCreateOff();
             } else {
-                setMessage(`Error: ${data}`);
+                setMessage(`Error: ${data.error}`);
             }
         } catch (error) {
-            console.log('aqui');
             setMessage(`Error: ${error.message}`);
         }
-        
     };
 
     return (
         <div className="modal-overlay">
             <div className="modal-content">
-                <button className="close-button" onClick={ModalOff}>
+                <button className="close-button" onClick={ModalCreateOff}>
                     &times;
                 </button>
                 <form onSubmit={handleSubmit}>
@@ -108,7 +69,7 @@ const ModalEdit = ({ ModalOff , id}) => {
                             <option value="Desativado">Desativado</option>
                         </select>
                     </div>
-                    <button className="outline-button btn-blue" type="submit">Atualizar Cliente</button>
+                    <button className="outline-button btn-green" type="submit">Criar Cliente</button>
                 </form>
                 {message}
             </div>
@@ -116,4 +77,4 @@ const ModalEdit = ({ ModalOff , id}) => {
     );
 }
 
-export default ButtonEdit;
+export default ModalCreate;

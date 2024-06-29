@@ -9,6 +9,10 @@ function App() {
 
   let page;
 
+  function logout() {
+    setLogged(false);
+  }
+
   function isLoggedInChange(_isLoggedIn, _user) {
     setUser(_user);
     console.log(user);
@@ -16,7 +20,7 @@ function App() {
   }
 
   if (isLoggedIn) {
-    page = <MainPage person={user} />
+    page = <MainPage person={user} isLoggedInChange={logout} />
   } else {
     page = <Login isLoggedInChange={isLoggedInChange} />
   }
