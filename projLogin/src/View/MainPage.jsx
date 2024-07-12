@@ -3,9 +3,14 @@ import Users from "../components/Users";
 import ModalCreate from "../components/ModalCreateConsumer";
 import "../components/Modal.css";
 import "./MainPage.css";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, selectUser } from "../Redux/userSlice";
 
-function MainPage({ person, isLoggedInChange }) {
+function MainPage() {
     const [modalCreate, setModalCreate] = useState(false);
+    const dispatch = useDispatch();
+
+    const { user } = useSelector(selectUser); 
 
     const ModalCreateOff = () => {
         setModalCreate(false);
@@ -15,18 +20,21 @@ function MainPage({ person, isLoggedInChange }) {
         setModalCreate(true);
     }
 
-    console.log(person);
+    const Logout = () => {
+        dispatch(logout());
+    }
+
     return (
         <div className="container MainPage">
             <div className="header">
                 <h2>Clientes</h2>
                 <div className="perfil">
-                    <span class="material-symbols-outlined">
+                    <span className="material-symbols-outlined">
                         account_circle
                     </span>
-                    <h2>{person.map((x) => x.name)} {person.map((x) => x.lastName)}</h2>
-                    <button className="btn-noconfig" onClick={isLoggedInChange}>
-                        <span class="material-symbols-outlined">
+                    <h2>{user.map((x) => x.name)} {user.map((x) => x.lastName)}</h2>
+                    <button className="btn-noconfig" onClick={Logout}>
+                        <span className="material-symbols-outlined">
                             logout
                         </span>
                     </button>

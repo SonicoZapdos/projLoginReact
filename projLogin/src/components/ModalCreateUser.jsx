@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./Modal.css";
+import { useDispatch } from "react-redux";
+import { changeUser } from "../Redux/userSlice";
 
 const ModalCreate = ({ modalCreate, ModalCreateOff }) => {
     if (!modalCreate) {
@@ -10,10 +12,14 @@ const ModalCreate = ({ modalCreate, ModalCreateOff }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
+    const dispatch = useDispatch();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
         setMessage('');
+
+        console.log(JSON.stringify({ name, lastName, email, password }));
+
         try {
             const response = await fetch('http://localhost:5000/api/user', {
                 method: 'POST',

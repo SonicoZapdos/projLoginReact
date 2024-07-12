@@ -1,17 +1,17 @@
 import db from "./db.js";
 
-const insertUser = (name, lastName, email, phone, active, callback) => {
-    if (name != null && email != null && password != null) {
-      const query = `INSERT INTO user (name, lastName, email, phone, active) VALUES (?, ?, ?, ?, ?)`;
-      db.run(query, [name, lastName, email, phone, active], function (err) {
-        if (err) {
-          callback(err);
-          return;
-        }
-        callback(null, { id: this.lastID, name, email });
-      });
+  const insertUser = (name, lastName, email, password, callback) => {
+    if (name == null || lastName == null || email == null || password == null) {
+      return callback(new Error("Nome, Email, Sobrenome ou Senha não foram preenchidos!!!"));
     }
-    callback("Nome, Email ou Senha não foram preenchidos!!!");
+  
+    const query = `INSERT INTO user (name, lastName, email, password) VALUES (?, ?, ?, ?)`;
+    db.run(query, [name, lastName, email, password], function (err) {
+      if (err) {
+        return callback(err);
+      }
+      return callback(null, {user: {name, lastName, email, password} });
+    });
   };
 
   const verifyLogin = (email, password, callback) => {

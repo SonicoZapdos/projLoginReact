@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import ModalCreate from '../components/ModalCreateUser';
 import "./Login.css";
+import { changeUser } from '../Redux/userSlice';
+import { useDispatch } from 'react-redux';
 
-function Login({ isLoggedInChange }) {
+function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
   const [modalCreate, setModalCreate] = useState(false);
+  const dispatch = useDispatch();
 
   const ModalCreateOff = () => {
     setModalCreate(false);
@@ -29,10 +32,11 @@ function Login({ isLoggedInChange }) {
         body: JSON.stringify({ "email": email, "password": password }),
       });
       const data = await response.json();
+      
       if (response.ok) {
         if (data.length == 1) {
           setMessage('Verificado com Sucesso');
-          isLoggedInChange(true, data);
+          dispatch(changeUser(data));
         } else {
           setMessage('Usuário ou Senha Incorretos, por favor tente novamente!!!');
           console.log(data);

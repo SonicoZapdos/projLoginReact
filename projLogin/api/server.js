@@ -89,10 +89,9 @@ app.delete("/api/consumer/:id", (req, res) => {
 app.get("/api/users", (req, res) => {
   user.getUsers((err, users) => {
     if (err) {
-      res.status(500).json({ error: err.message });
-      return;
+      return res.status(500).json({ error: err.message });
     }
-    res.json(users);
+    return res.json(users);
   });
 });
 
@@ -110,8 +109,8 @@ app.get('/api/user/:id', (req, res) => {
 
 // Rota para adicionar um novo usuário
 app.post("/api/user", (req, res) => {
-  const { name, email } = req.body;
-  user.insertUser(name, email, (err, users) => {
+  const { name, lastName, email, password } = req.body;
+  user.insertUser(name, lastName, email, password, (err, users) => {
     if (err) {
       res.status(500).json({ error: err.message });
       return;

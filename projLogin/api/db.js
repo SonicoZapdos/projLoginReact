@@ -11,8 +11,6 @@ const db = new sqlite3.Database(dbPath, (err) => {
     console.log('Conectado ao banco de dados SQLite.');
     createTableConsumer();
     createTableUser();
-
-    insertExempleUser();
   }
 });
 

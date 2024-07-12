@@ -1,28 +1,19 @@
-import React, { useState } from "react";
+import React from "react";
 import Login from "./View/Login";
 import MainPage from "./View/MainPage";
 import "./App.css";
+import { useSelector } from "react-redux";
+import { selectUser } from "./Redux/userSlice";
 
 function App() {
-  const [isLoggedIn, setLogged] = useState(false);
-  const [user, setUser] = useState('');
+  const userLogged = useSelector(selectUser);
 
   let page;
 
-  function logout() {
-    setLogged(false);
-  }
-
-  function isLoggedInChange(_isLoggedIn, _user) {
-    setUser(_user);
-    console.log(user);
-    setLogged(_isLoggedIn);
-  }
-
-  if (isLoggedIn) {
-    page = <MainPage person={user} isLoggedInChange={logout} />
+  if (userLogged.isLogged) {
+    page = <MainPage />
   } else {
-    page = <Login isLoggedInChange={isLoggedInChange} />
+    page = <Login />
   }
 
   return (

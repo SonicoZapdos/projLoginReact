@@ -2,35 +2,25 @@ import React, { useEffect, useState } from 'react';
 import BtnEdit from './ModalEdit';
 import BtnDelete from './ModalDelete';
 import "./Users.css";
+import { useSelector } from 'react-redux';
 
 function Users() {
-  const [users, setUsers] = useState([]);
+  const state = useSelector(state => state.consumer);
+  const [consumer, setConsumer] = useState({});
 
   const fetchConsumers = async () => {
     try {
       const response = await fetch('http://localhost:5000/api/consumers');
-      const data = await response.json();
-      setUsers(data);
+      return await response.json();
     } catch (err) {
       console.log(err.error);
+      return null;
     }
   };
 
   useEffect(() => {
-    // Buscar consumidores ao montar o componente
-    fetchConsumers();
-
-    // Configurar polling
-    const intervalId = setInterval(() => {
-      fetchConsumers();
-    }, 5000); // Polling a cada 5 segundos
-
-    // Limpar o interval ao desmontar o componente
-    return () => {
-      clearInterval(intervalId);
-    };
-  }, []);
-
+    setConsumer(fetchConsumers());
+  })
   return (
     <div className="container-table">
       <table>
@@ -46,7 +36,7 @@ function Users() {
       </thead>
       <tbody>
         {
-          users.map((x) => {
+          consumer.map((x) => {
             return <tr key={x.id}>
               <th>{x.name}</th>
               <th>{x.lastName}</th>

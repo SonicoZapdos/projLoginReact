@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./Modal.css";
+import { useDispatch } from "react-redux";
+import { changeConsumer } from "../Redux/consumerSlice";
 
 const ModalCreate = ({ modalCreate, ModalCreateOff }) => {
     if (!modalCreate) {
@@ -11,6 +13,7 @@ const ModalCreate = ({ modalCreate, ModalCreateOff }) => {
     const [phone, setPhone] = useState('');
     const [status, setStatus] = useState('Ativo');
     const [message, setMessage] = useState('');
+    const dispatch = useDispatch();
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -31,6 +34,7 @@ const ModalCreate = ({ modalCreate, ModalCreateOff }) => {
             if (response.ok) {
                 setMessage('User created successfully!');
                 ModalCreateOff();
+                dispatch(changeConsumer());
             } else {
                 setMessage(`Error: ${data.error}`);
             }
